@@ -5,9 +5,48 @@
 #include <cmath>
 #include <cstring>
 #include <vector>
-#include "Vec3d.hh"
 
 constexpr double G = 6.67408e-11;
+class Vec3d {
+public:
+    double x, y, z;
+    Vec3d(double x = 0, double y = 0, double z = 0) :
+            x(x), y(y), z(z) {}
+    friend Vec3d operator +(const Vec3d& a, const Vec3d& b) {
+        return Vec3d(a.x+b.x, a.y+b.y, a.z+b.z);
+    }
+    friend Vec3d operator -(const Vec3d& a, const Vec3d& b){
+        return Vec3d(a.x+b.x, a.y+b.y, a.z+b.z);
+    }
+
+    friend Vec3d operator -(const Vec3d& a) {
+        return Vec3d(-a.x, -a.y, -a.z);
+    }
+
+    friend void operator +=(Vec3d& a, const Vec3d& b) {
+        a.x += b.x; a.y += b.y; a.z += b.z;
+    }
+
+    // compute scalar * vector and return the vector
+    friend Vec3d operator *(double s, const Vec3d& v) {
+        return Vec3d(s * v.x, s * v.y, s * v.z);
+    }
+
+    // compute scalar * vector and return the vector
+    friend Vec3d operator *(const Vec3d& v, double s) {
+        return Vec3d(s * v.x, s * v.y, s * v.z);
+    }
+
+    friend double dot(const Vec3d& a, const Vec3d& b) {
+        return a.x*b.x + a.y*b.y + a.z*b.z;
+    }
+
+    double mag() const{
+        return sqrt(x*x + y*y + z*z);
+    }
+
+    friend std::ostream& operator <<(std::ostream& s, const Vec3d& v);
+};
 
 class Body {
 private:
@@ -26,8 +65,7 @@ public:
 			 double vx, double vy, double vz);
 	friend std::ostream& operator <<(std::ostream& s, const Body& b);
 	Vec3d gravAccel(const Body& b) const;
-};GravSim
-
+};
 class GravSim {
 public:
 private:
@@ -39,4 +77,3 @@ public:
 	void forward(uint32_t n, double dt);
 	friend std::ostream& operator <<(std::ostream& s, const GravSim& sim);
 };
-

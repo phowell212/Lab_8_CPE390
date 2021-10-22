@@ -2,9 +2,7 @@
 
 int main(int argc, char* argv[]) {
 	GravSim sim("solarsys.dat");
-	const uint32_t numTimeSteps = uint32_t((365.2425 * 24 * 60 * 60) / 10);
-	const uint32_t numStepsPerPrint = numTimeSteps;
-	for (uint32_t i = 0; i < numTimeSteps; i+= numStepsPerPrint) {
-		sim.forward(numStepsPerPrint, 10);
+	for (uint32_t i = 0; i < uint32_t((365.2425 * 24 * 60 * 60) / 10); i+= uint32_t((365.2425 * 24 * 60 * 60) / 10)) {
+		sim.forward(uint32_t((365.2425 * 24 * 60 * 60) / 10), 10);
 	}
 }

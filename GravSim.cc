@@ -6,9 +6,10 @@
 #include <vector>
 #include <random>
 #include <unordered_map>
+#include <cmath>
 
 using namespace std;
-	
+
 std::ostream& operator <<(std::ostream& s, const Vec3d& v) {
 	return s << v.x << ',' << v.y << ',' << v.z;
 }
