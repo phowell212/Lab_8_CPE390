@@ -1,5 +1,5 @@
 DEBUG	:= -g
-OPT	:= -O2
+OPT	:= -O4
 CXX	:= g++ -std=c++11 $(DEBUG) $(OPT)
 gravsim: GravSim.o main.o
 	$(CXX) GravSim.o main.o -o gravsim

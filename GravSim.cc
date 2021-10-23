@@ -6,7 +6,6 @@
 #include <vector>
 #include <random>
 #include <unordered_map>
-#include <cmath>
 
 using namespace std;
 
@@ -45,7 +44,7 @@ GravSim::GravSim(const char filename[]) {
 		istringstream line(buf);
 		line >> name >> m >> diam >> perihelion >> aphelion >>
 			orbPeriod, rotPeriod;
-		//		double theta = angle(gen); // pick a random angle to start the orbit
+		//double theta = angle(gen); // pick a random angle to start the orbit
 		const double theta = 0; // pick single value for testing, all planets lined up on x axis
 		
 		double r = (perihelion + aphelion) / 2;
@@ -56,7 +55,7 @@ GravSim::GravSim(const char filename[]) {
 		double v = r == 0 ? 0 : sqrt(G*m * (2 / r - 1 / aphelion));
 
 		double vx = -v * sin(theta), vy = v * cos(theta), vz = 0;
-		bodies.push_back(Body(name, orbits, m,  x, y, z, vx, vy, vz)); // eliminate the pointer. Single block of linear memory
+		bodies.emplace_back(name, orbits, m,  x, y, z, vx, vy, vz); // eliminate the pointer. Single block of linear memory
 		bodiesByName[orbits] = &bodies.back();
 		cout << bodies.back() << '\n';
 	}
@@ -65,9 +64,10 @@ GravSim::GravSim(const char filename[]) {
 // Hint: making this function inline might have a small effect
 Vec3d Body::gravAccel(const Body& b) const { // Hint: most of the speed problems are in this function
 	Vec3d dpos = pos - b.pos;
-	double r = dpos.mag();
-	double amag = G * b.m / r/r; // precomputed Gm and only a single division
-	return Vec3d(dpos.x*amag/r, dpos.y*amag/r, dpos.z*amag/r); // eliminated division
+    double rx2 = dpos.magsq();
+    double temp = 1/dpos.mag();
+	double amag = G * b.m * (1/(rx2)); // precomputed Gm and only a single division
+	return {dpos.x*amag * temp, dpos.y*amag * temp, dpos.z*amag *temp}; // eliminated division
 }
 
 /*
@@ -79,7 +79,7 @@ void GravSim::timestep(double dt) {
 		Vec3d a; // Define a scalar acceleration (will be in registers)
 		for (int j = 0; j < bodies.size(); j++)
 			if (i != j)
-				a = a + bodies[i].gravAccel(bodies[j]); // This calls operator + in class Vec3d. inlining might be faster
+				a += bodies[i].gravAccel(bodies[j]); // This calls operator + in class Vec3d. inlining might be faster
 		bodies[i].a = a;
 	}
 

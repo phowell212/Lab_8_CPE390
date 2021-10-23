@@ -1,7 +1,5 @@
 #pragma once
-
 #include <iostream>
-#define _USE_MATH_DEFINES 
 #include <cmath>
 #include <cstring>
 #include <vector>
@@ -43,6 +41,9 @@ public:
 
     double mag() const{
         return sqrt(x*x + y*y + z*z);
+    }
+    double magsq() const{
+        return x*x + y*y + z*z;
     }
 
     friend std::ostream& operator <<(std::ostream& s, const Vec3d& v);
