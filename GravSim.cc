@@ -14,13 +14,13 @@ std::ostream& operator <<(std::ostream& s, const Vec3d& v) {
 }
 
 Body::Body(const char name[16],
-					 const char orbits[16],
-					 double m,
+					 const char orbits[16], double m,
 					 double x, double y, double z,
 					 double vx, double vy, double vz) :
-	m(m),
+	m(m), Gm(G*m),
 	pos(x,y,z), v(vx, vy, vz), a() {
 	strncpy(this->name, name, 16);
+
 }
 
 ostream& operator <<(ostream& s, const Body& b) {
@@ -64,10 +64,9 @@ GravSim::GravSim(const char filename[]) {
 // Hint: making this function inline might have a small effect
 Vec3d Body::gravAccel(const Body& b) const { // Hint: most of the speed problems are in this function
 	Vec3d dpos = pos - b.pos;
-    double rx2 = dpos.magsq();
-    double temp = 1/dpos.mag();
-	double amag = G * b.m * (1/(rx2)); // precomputed Gm and only a single division
-	return {dpos.x*amag * temp, dpos.y*amag * temp, dpos.z*amag *temp}; // eliminated division
+    double rx2 = 1/dpos.magsq();
+	double amag = b.Gm * rx2 * sqrt(rx2); // precomputed Gm and only a single division
+	return {dpos.x*amag, dpos.y*amag, dpos.z*amag}; // eliminated division
 }
 
 /*
@@ -79,12 +78,12 @@ void GravSim::timestep(double dt) {
 		Vec3d a; // Define a scalar acceleration (will be in registers)
 		for (int j = 0; j < bodies.size(); j++)
 			if (i != j)
-				a += bodies[i].gravAccel(bodies[j]); // This calls operator + in class Vec3d. inlining might be faster
+				a += bodies[i].gravAccel(bodies[j]);
 		bodies[i].a = a;
 	}
 
 	for (int i = 0; i < bodies.size(); i++) {
-		bodies[i].pos = bodies[i].pos +	0.5 * bodies[i].a * pow(dt,2) + bodies[i].v * dt; // Hint: Horner's form is faster
+        bodies[i].pos += ((0.5*bodies[i].a * dt + bodies[i].v)) * dt;
 		bodies[i].v += bodies[i].a * dt;
 	}
 	t += dt;
