@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/haquilus/git/MyCPE360Projects/Lab_8_CPE390/GravSim.cc
+GravSim.hh
+/home/haquilus/git/MyCPE360Projects/Lab_8_CPE390/GravSim.hh
+fstream
+-
+iomanip
+-
+sstream
+-
+cstring
+-
+random
+-
+unordered_map
+-
+
+/home/haquilus/git/MyCPE360Projects/Lab_8_CPE390/GravSim.hh
+iostream
+-
+cmath
+-
+cstring
+-
+vector
+-
+Vec3d.hh
+/home/haquilus/git/MyCPE360Projects/Lab_8_CPE390/Vec3d.hh
+
+/home/haquilus/git/MyCPE360Projects/Lab_8_CPE390/Vec3d.hh
+iostream
+-
+

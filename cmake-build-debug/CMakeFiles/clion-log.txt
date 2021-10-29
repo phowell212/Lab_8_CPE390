@@ -1,0 +1,4 @@
+/usr/bin/programs/clion-2021.2.1/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - Unix Makefiles" /home/haquilus/git/MyCPE360Projects/Lab_8_CPE390
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/haquilus/git/MyCPE360Projects/Lab_8_CPE390/cmake-build-debug

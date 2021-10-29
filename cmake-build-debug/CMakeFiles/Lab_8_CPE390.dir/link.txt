@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/Lab_8_CPE390.dir/GravSim.cc.o CMakeFiles/Lab_8_CPE390.dir/main.cc.o -o Lab_8_CPE390 
