@@ -81,7 +81,7 @@ void GravSim::timestep(double dt) {
 				a += bodies[i].gravAccel(bodies[j]);
 		bodies[i].a = a;
 	}
-//
+
 	for (int i = 0; i < bodies.size(); i++) {
         bodies[i].pos += ((0.5*bodies[i].a * dt + bodies[i].v)) * dt;
 		bodies[i].v += bodies[i].a * dt;
